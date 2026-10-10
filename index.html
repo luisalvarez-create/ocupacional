@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Juego de terapia ocupacional en realidad virtual (WebXR) para Meta Quest y cámara web con MediaPipe.">
+  <title>Terapia Ocupacional XR</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%96%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="overlay">
+    <header class="hero">
+      <h1>Terapia Ocupacional XR</h1>
+      <p>Actividades de rehabilitación de miembro superior en realidad virtual. Funciona con los lentes Meta Quest (manos o controles) y con cámara web mediante MediaPipe.</p>
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <h2>Configuración de la sesión</h2>
+        <form id="settings-form" onsubmit="return false">
+          <label>Paciente
+            <input id="f-patient" type="text" placeholder="Nombre o código del paciente" autocomplete="off">
+          </label>
+          <label>Actividad
+            <select id="f-activity"></select>
+          </label>
+          <div class="row">
+            <label>Mano
+              <select id="f-hand"></select>
+            </label>
+            <label>Dificultad
+              <select id="f-difficulty"></select>
+            </label>
+          </div>
+          <div class="row">
+            <label>Duración máxima
+              <select id="f-duration"></select>
+            </label>
+            <label>Ajuste altura de mesa
+              <select id="f-table"></select>
+            </label>
+          </div>
+          <label class="check"><input id="f-voice" type="checkbox"> Voz guía (instrucciones habladas)</label>
+          <p id="activity-description" class="muted"></p>
+        </form>
+
+        <div class="actions">
+          <button id="btn-vr" class="primary">🥽 Entrar en VR (Meta Quest)</button>
+          <button id="btn-camera">📷 Jugar con cámara (MediaPipe)</button>
+          <button id="btn-desktop" class="ghost">🖱️ Probar con ratón</button>
+        </div>
+        <p id="xr-status" class="status"></p>
+      </section>
+
+      <section class="card">
+        <h2>Historial de resultados</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Fecha</th><th>Paciente</th><th>Actividad</th><th>Mano</th><th>Nivel</th><th>Puntos</th><th>Detalle</th></tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <button id="btn-export">⬇️ Exportar CSV</button>
+          <button id="btn-clear" class="ghost danger">Borrar historial</button>
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>Actividades</h2>
+        <ul class="activities">
+          <li><strong>Alcance:</strong> toca esferas que aparecen alrededor del cuerpo. Trabaja rango de movimiento de hombro y codo, coordinación ojo-mano y tiempo de reacción. En modo “Ambas”, las esferas azules son para la mano izquierda y las naranjas para la derecha (coordinación bilateral).</li>
+          <li><strong>Clasificar objetos:</strong> toma objetos de la mesa y suéltalos en la caja del mismo color y forma. Trabaja agarre, transporte, liberación, planeación motora y atención.</li>
+          <li><strong>Tablero de clavijas:</strong> coloca 9 clavijas en el tablero con pinza fina y después regrésalas a la bandeja (inspirado en la prueba de 9 clavijas). Trabaja destreza manual fina.</li>
+        </ul>
+        <p class="muted">En Quest: interactúa tocando los botones con el dedo índice o pellizcando (pulgar + índice). Con controles, usa el gatillo o el botón lateral para agarrar. Con cámara: pellizca para agarrar o pulsar botones; acerca la mano a la cámara para alcanzar más lejos.</p>
+        <p class="muted small">Esta aplicación es una herramienta de apoyo para la práctica terapéutica y no sustituye una evaluación clínica estandarizada.</p>
+      </section>
+    </main>
+  </div>
+
+  <div id="desktop-bar" hidden>
+    <span id="desktop-hint"></span>
+    <button id="btn-back">⟵ Volver al panel</button>
+  </div>
+
+  <div id="camera-preview" hidden>
+    <video id="webcam" playsinline muted></video>
+    <canvas id="webcam-overlay"></canvas>
+    <span id="camera-status">Cargando MediaPipe…</span>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

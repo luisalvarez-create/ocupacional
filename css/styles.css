@@ -1,0 +1,161 @@
+:root {
+  --bg: #eef5f8;
+  --card: #ffffff;
+  --text: #1f2d3a;
+  --muted: #5d6f7f;
+  --primary: #2f80ed;
+  --primary-text: #ffffff;
+  --border: #d5e2ea;
+  --danger: #d64545;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+canvas { display: block; }
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: var(--bg);
+  z-index: 10;
+  padding: 24px 16px 48px;
+}
+
+#overlay[hidden] { display: none; }
+
+.hero { max-width: 1100px; margin: 0 auto 20px; }
+.hero h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 4vw, 2.4rem); color: #1b5e8c; }
+.hero p { margin: 0; color: var(--muted); max-width: 760px; }
+
+.grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  min-width: 0;
+}
+.card.wide { grid-column: 1 / -1; }
+.card h2 { margin: 0 0 12px; font-size: 1.15rem; }
+
+form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  flex: 1;
+  min-width: 0;
+}
+form label.check { flex-direction: row; align-items: center; gap: 8px; color: var(--text); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+input[type="text"], select {
+  font: inherit;
+  color: var(--text);
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdfe;
+  width: 100%;
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f3f8fb;
+  color: var(--text);
+  cursor: pointer;
+}
+button:hover:not(:disabled) { filter: brightness(0.96); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-text); }
+button.ghost { background: transparent; }
+button.danger { color: var(--danger); }
+
+.status { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
+.muted { color: var(--muted); font-size: 0.92rem; }
+.small { font-size: 0.8rem; }
+
+.table-wrap { overflow-x: auto; max-height: 340px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { position: sticky; top: 0; background: var(--card); }
+td.detail { color: var(--muted); min-width: 200px; }
+
+.activities { padding-left: 18px; margin: 0 0 10px; }
+.activities li { margin-bottom: 8px; }
+
+#desktop-bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  z-index: 5;
+  font-size: 0.9rem;
+}
+#desktop-bar[hidden] { display: none; }
+
+#camera-preview {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: min(260px, 40vw);
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 6;
+}
+#camera-preview[hidden] { display: none; }
+#camera-preview video, #camera-preview canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* vista espejo, más natural para el paciente */
+}
+#camera-status {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  font-size: 0.75rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
